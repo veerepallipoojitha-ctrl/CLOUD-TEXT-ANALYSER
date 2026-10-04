@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cloud Text Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+            deleteDoc,
+            doc,
+            query,
+            orderBy
+        } from
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // ------------------------------------------------
+        // REPLACE THESE VALUES WITH YOUR FIREBASE CONFIG
+        // ------------------------------------------------
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.firebaseDB = db;
+        window.firebaseFunctions = {
+            collection,
+            addDoc,
+            getDocs,
+            deleteDoc,
+            doc,
+            query,
+            orderBy
+        };
+
+        // Let the main script know Firebase is ready
+        window.dispatchEvent(new Event("firebaseReady"));
+    </script>
+
+    <script type="module" src="script.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>☁️ Cloud Text Analyzer</h1>
+        <p>Analyze and store your text using cloud computing</p>
+    </header>
+
+    <main>
+
+        <!-- Text Input -->
+        <section class="card">
+
+            <h2>📝 Enter Your Text</h2>
+
+            <input
+                type="text"
+                id="documentTitle"
+                placeholder="Enter document title"
+            >
+
+            <textarea
+                id="textInput"
+                placeholder="Enter or paste your text here..."
+            ></textarea>
+
+            <div class="buttons">
+                <button id="analyzeBtn">
+                    🔍 Analyze Text
+                </button>
+
+                <button id="saveBtn">
+                    ☁️ Save to Cloud
+                </button>
+
+                <button id="clearBtn" class="danger">
+                    🗑️ Clear
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- Analysis Results -->
+        <section class="card">
+
+            <h2>📊 Text Analysis</h2>
+
+            <div class="stats">
+
+                <div class="stat-box">
+                    <h3 id="wordCount">0</h3>
+                    <p>Words</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3 id="characterCount">0</h3>
+                    <p>Characters</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3 id="sentenceCount">0</h3>
+                    <p>Sentences</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3 id="paragraphCount">0</h3>
+                    <p>Paragraphs</p>
+                </div>
+
+            </div>
+
+            <div class="result-area">
+
+                <h3>🔑 Keywords</h3>
+
+                <div id="keywords">
+                    No keywords yet.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Cloud Documents -->
+        <section class="card">
+
+            <div class="cloud-header">
+
+                <div>
+                    <h2>☁️ Cloud Documents</h2>
+                    <p>Documents stored in Firebase Firestore</p>
+                </div>
+
+                <button id="loadBtn">
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+            <div id="documents">
+                <p class="empty">
+                    Loading cloud documents...
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>Cloud Text Analyzer | Text and Speech Analysis Project</p>
+    </footer>
+
+</body>
+</html>
